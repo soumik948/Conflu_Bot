@@ -257,8 +257,9 @@
             <div class="modal-body">
                 <form id="upload-form" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="document-file">Select Document</label>
-                        <input type="file" id="document-file" name="document" required>
+                        <label for="document-file">Select Document *</label>
+                        <input type="file" id="document-file" name="document" required accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.jpg,.jpeg,.png,.gif">
+                        <small class="form-text">Maximum file size: 10MB. Supported formats: PDF, DOC, DOCX, TXT, XLS, XLSX, PPT, PPTX, JPG, PNG, GIF</small>
                     </div>
                     <div class="form-group">
                         <label for="document-app">Associated Application (Optional)</label>
@@ -266,9 +267,32 @@
                             <option value="">No Association</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="document-description">Description (Optional)</label>
+                        <textarea id="document-description" name="description" rows="3" placeholder="Enter document description..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="document-category">Category</label>
+                        <select id="document-category" name="category">
+                            <option value="General">General</option>
+                            <option value="Technical">Technical</option>
+                            <option value="User Guide">User Guide</option>
+                            <option value="API Documentation">API Documentation</option>
+                            <option value="Architecture">Architecture</option>
+                            <option value="Configuration">Configuration</option>
+                            <option value="Troubleshooting">Troubleshooting</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="document-tags">Tags (Optional)</label>
+                        <input type="text" id="document-tags" name="tags" placeholder="Enter tags separated by commas (e.g., api, documentation, guide)">
+                        <small class="form-text">Separate multiple tags with commas</small>
+                    </div>
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="closeUploadModal()">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload"></i> Upload Document
+                        </button>
                     </div>
                 </form>
             </div>
