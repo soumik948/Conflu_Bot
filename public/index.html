@@ -3,240 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soum_Confluence - Telecom Document Management System</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Soum_Confluence - Telecom OSS Applications</title>
+    <link rel="stylesheet" href="css/style_new.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="header-container">
+        <div class="header-content">
             <div class="logo">
                 <i class="fas fa-satellite-dish"></i>
                 <span>Soum_Confluence</span>
             </div>
-            <nav class="nav">
-                <a href="#" class="nav-link active" data-section="dashboard">
-                    <i class="fas fa-home"></i> Dashboard
-                </a>
-                <a href="#" class="nav-link" data-section="applications">
-                    <i class="fas fa-mobile-alt"></i> Applications
-                </a>
-                <a href="#" class="nav-link" data-section="documents">
-                    <i class="fas fa-file-alt"></i> Documents
-                </a>
-                <a href="#" class="nav-link" data-section="search">
-                    <i class="fas fa-search"></i> Search
-                </a>
-            </nav>
-            <div class="user-menu">
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="showAddApplicationModal()">
+                    <i class="fas fa-plus"></i> New Application
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Dashboard Section -->
-        <section id="dashboard" class="content-section active">
-            <div class="page-header">
-                <h1>Telecom Applications Dashboard</h1>
-                <p>Comprehensive document management system for OSS/BSS applications</p>
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>OSS Applications</h3>
+                <span class="app-count" id="app-count">0</span>
             </div>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3 id="total-apps">0</h3>
-                        <p>Total Applications</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-crown"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3 id="platinum-apps">0</h3>
-                        <p>Platinum Apps</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-clock"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3 id="support-24x7">0</h3>
-                        <p>24x7 Support</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <div class="stat-content">
-                        <h3 id="total-docs">0</h3>
-                        <p>Documents</p>
-                    </div>
+            <div class="search-box">
+                <input type="text" id="app-search" placeholder="Search applications...">
+                <i class="fas fa-search"></i>
+            </div>
+            <nav class="app-nav" id="app-nav">
+                <!-- Application list will be populated here -->
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Screen -->
+            <div id="welcome-screen" class="welcome-screen">
+                <div class="welcome-content">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h1>Telecom OSS Applications</h1>
+                    <p>Select an application from the sidebar to view details</p>
                 </div>
             </div>
 
-            <div class="recent-apps">
-                <h2>Recent Applications</h2>
-                <div id="recent-apps-list" class="apps-grid">
-                    <!-- Dynamic content will be loaded here -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Applications Section -->
-        <section id="applications" class="content-section">
-            <div class="page-header">
-                <h1>Telecom Applications</h1>
-                <div class="header-actions">
-                    <button class="btn btn-primary" onclick="showAddApplicationModal()">
-                        <i class="fas fa-plus"></i> Add Application
-                    </button>
-                    <div class="filter-controls">
-                        <select id="category-filter" class="filter-select">
-                            <option value="">All Categories</option>
-                            <option value="B2B">B2B</option>
-                            <option value="B2C">B2C</option>
-                        </select>
-                        <select id="support-filter" class="filter-select">
-                            <option value="">All Support Levels</option>
-                            <option value="Platinum">Platinum</option>
-                            <option value="Gold">Gold</option>
-                            <option value="Silver">Silver</option>
-                        </select>
+            <!-- Application Detail Page -->
+            <div id="app-detail-page" class="app-detail-page" style="display: none;">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1 id="app-name">Application Name</h1>
+                        <span id="app-u-number" class="u-number">U-1234</span>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn btn-secondary" onclick="editApplication()">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteApplication()">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
                     </div>
                 </div>
-            </div>
 
-            <div id="applications-list" class="applications-grid">
-                <!-- Dynamic content will be loaded here -->
-            </div>
-        </section>
+                <div class="page-content">
+                    <!-- Basic Information -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-info-circle"></i> Basic Information</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Application Name:</label>
+                                <span id="detail-app-name">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>U-Number:</label>
+                                <span id="detail-u-number">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Application Version:</label>
+                                <span id="detail-version">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Page Version:</label>
+                                <span id="detail-page-version">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Support Level:</label>
+                                <span id="detail-support-level">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Support Mode:</label>
+                                <span id="detail-support-mode">-</span>
+                            </div>
+                        </div>
+                    </section>
 
-        <!-- Documents Section -->
-        <section id="documents" class="content-section">
-            <div class="page-header">
-                <h1>Documents</h1>
-                <div class="header-actions">
-                    <button class="btn btn-primary" onclick="showUploadModal()">
-                        <i class="fas fa-upload"></i> Upload Document
-                    </button>
+                    <!-- Support Details -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-headset"></i> Support Details</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Support Team Name:</label>
+                                <span id="detail-support-team">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Application Owner:</label>
+                                <span id="detail-owner">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Application Lead:</label>
+                                <span id="detail-lead">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Infra Support Team:</label>
+                                <span id="detail-infra-support">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Vendor Support Team:</label>
+                                <span id="detail-vendor-support">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Escalation Matrix -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-sitemap"></i> Escalation Matrix</h2>
+                        <div class="escalation-matrix" id="detail-escalation-matrix">
+                            <!-- Escalation details will be populated here -->
+                        </div>
+                    </section>
+
+                    <!-- Application Inventory -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-server"></i> Application Inventory</h2>
+                        <div class="inventory-grid">
+                            <div class="inventory-item">
+                                <label>Number of Servers:</label>
+                                <span id="detail-server-count">-</span>
+                            </div>
+                            <div class="inventory-item">
+                                <label>Server Names:</label>
+                                <span id="detail-server-names">-</span>
+                            </div>
+                            <div class="inventory-item">
+                                <label>Server Configurations:</label>
+                                <span id="detail-server-configs">-</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Architecture & Functionality -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-cogs"></i> Architecture & Functionality</h2>
+                        <div class="architecture-content">
+                            <div class="arch-item">
+                                <h3>Application Architecture</h3>
+                                <p id="detail-architecture">-</p>
+                            </div>
+                            <div class="arch-item">
+                                <h3>Application Functionality</h3>
+                                <p id="detail-functionality">-</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Architecture Diagrams -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-project-diagram"></i> Architecture Diagrams</h2>
+                        <div class="diagrams-grid" id="detail-diagrams">
+                            <!-- Diagrams will be populated here -->
+                        </div>
+                    </section>
+
+                    <!-- Application Documents -->
+                    <section class="info-section">
+                        <h2><i class="fas fa-file-alt"></i> Application Documents</h2>
+                        <div class="documents-section">
+                            <div class="upload-area">
+                                <button class="btn btn-primary" onclick="showUploadModal()">
+                                    <i class="fas fa-upload"></i> Upload Document
+                                </button>
+                            </div>
+                            <div class="documents-grid" id="detail-documents">
+                                <!-- Documents will be populated here -->
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
-
-            <div id="documents-list" class="documents-grid">
-                <!-- Dynamic content will be loaded here -->
-            </div>
-        </section>
-
-        <!-- Search Section -->
-        <section id="search" class="content-section">
-            <div class="page-header">
-                <h1>Search Applications</h1>
-            </div>
-
-            <div class="search-container">
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Search applications, owners, functionality...">
-                    <button class="search-btn" onclick="performSearch()">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <div class="search-filters">
-                    <select id="search-category" class="filter-select">
-                        <option value="">All Categories</option>
-                        <option value="B2B">B2B</option>
-                        <option value="B2C">B2C</option>
-                    </select>
-                    <select id="search-support" class="filter-select">
-                        <option value="">All Support Levels</option>
-                        <option value="Platinum">Platinum</option>
-                        <option value="Gold">Gold</option>
-                        <option value="Silver">Silver</option>
-                    </select>
-                </div>
-            </div>
-
-            <div id="search-results" class="search-results">
-                <!-- Search results will be displayed here -->
-            </div>
-        </section>
-    </main>
-
-    <!-- Application Detail Modal -->
-    <div id="application-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="modal-app-name">Application Details</h2>
-                <span class="close" onclick="closeModal()">&times;</span>
-            </div>
-            <div class="modal-body" id="modal-app-details">
-                <!-- Application details will be loaded here -->
-            </div>
-        </div>
+        </main>
     </div>
 
     <!-- Add Application Modal -->
-    <div id="add-application-modal" class="modal">
+    <div id="add-app-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Add New Application</h2>
                 <span class="close" onclick="closeAddModal()">&times;</span>
             </div>
             <div class="modal-body">
-                <form id="add-application-form">
-                    <div class="form-group">
-                        <label for="app-name">Application Name</label>
-                        <input type="text" id="app-name" name="name" required>
+                <form id="add-app-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="app-name">Application Name *</label>
+                            <input type="text" id="app-name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="app-u-number">U-Number *</label>
+                            <input type="text" id="app-u-number" name="uNumber" required placeholder="U-1234">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="app-version">Application Version *</label>
+                            <input type="text" id="app-version" name="version" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="app-page-version">Page Version *</label>
+                            <input type="text" id="app-page-version" name="pageVersion" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="app-support-level">Support Level *</label>
+                            <select id="app-support-level" name="supportLevel" required>
+                                <option value="Platinum">Platinum</option>
+                                <option value="Gold">Gold</option>
+                                <option value="Silver">Silver</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="app-support-mode">Support Mode *</label>
+                            <select id="app-support-mode" name="supportMode" required>
+                                <option value="24x7">24x7</option>
+                                <option value="8x7">8x7</option>
+                                <option value="8x5">8x5</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
-                        <label for="app-category">Category</label>
-                        <select id="app-category" name="category" required>
-                            <option value="B2B">B2B</option>
-                            <option value="B2C">B2C</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="app-owner">Application Owner</label>
-                        <input type="text" id="app-owner" name="owner" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="app-support-team">Support Team</label>
+                        <label for="app-support-team">Support Team Name *</label>
                         <input type="text" id="app-support-team" name="supportTeam" required>
                     </div>
                     <div class="form-group">
-                        <label for="app-support-category">Support Category</label>
-                        <select id="app-support-category" name="supportCategory" required>
-                            <option value="Platinum">Platinum</option>
-                            <option value="Gold">Gold</option>
-                            <option value="Silver">Silver</option>
-                        </select>
+                        <label for="app-owner">Application Owner *</label>
+                        <input type="text" id="app-owner" name="owner" required>
                     </div>
                     <div class="form-group">
-                        <label for="app-support-level">Support Level</label>
-                        <select id="app-support-level" name="supportLevel" required>
-                            <option value="24x7">24x7</option>
-                            <option value="8x7">8x7</option>
-                            <option value="8x5">8x5</option>
-                        </select>
+                        <label for="app-lead">Application Lead *</label>
+                        <input type="text" id="app-lead" name="lead" required>
                     </div>
                     <div class="form-group">
-                        <label for="app-version">Version</label>
-                        <input type="text" id="app-version" name="version" required>
+                        <label for="app-infra-support">Infra Support Team *</label>
+                        <input type="text" id="app-infra-support" name="infraSupport" required>
                     </div>
                     <div class="form-group">
-                        <label for="app-functionality">Functionality</label>
-                        <textarea id="app-functionality" name="functionality" rows="3" required></textarea>
+                        <label for="app-vendor-support">Vendor Support Team *</label>
+                        <input type="text" id="app-vendor-support" name="vendorSupport" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-escalation">Escalation Matrix *</label>
+                        <textarea id="app-escalation" name="escalationMatrix" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-server-count">Number of Servers *</label>
+                        <input type="number" id="app-server-count" name="serverCount" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-server-names">Server Names *</label>
+                        <input type="text" id="app-server-names" name="serverNames" required placeholder="server1, server2, server3">
+                    </div>
+                    <div class="form-group">
+                        <label for="app-server-configs">Server Configurations *</label>
+                        <textarea id="app-server-configs" name="serverConfigs" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-architecture">Application Architecture *</label>
+                        <textarea id="app-architecture" name="architecture" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="app-functionality">Application Functionality *</label>
+                        <textarea id="app-functionality" name="functionality" rows="4" required></textarea>
                     </div>
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
@@ -258,47 +307,32 @@
                 <form id="upload-form" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="document-file">Select Document *</label>
-                        <input type="file" id="document-file" name="document" required accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx,.jpg,.jpeg,.png,.gif">
-                        <small class="form-text">Maximum file size: 10MB. Supported formats: PDF, DOC, DOCX, TXT, XLS, XLSX, PPT, PPTX, JPG, PNG, GIF</small>
+                        <input type="file" id="document-file" name="document" required accept=".pdf,.doc,.docx,.xlsx,.xls,.ppt,.pptx,.jpg,.jpeg,.png,.gif">
                     </div>
                     <div class="form-group">
-                        <label for="document-app">Associated Application (Optional)</label>
-                        <select id="document-app" name="applicationId">
-                            <option value="">No Association</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="document-description">Description (Optional)</label>
-                        <textarea id="document-description" name="description" rows="3" placeholder="Enter document description..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="document-category">Category</label>
-                        <select id="document-category" name="category">
-                            <option value="General">General</option>
-                            <option value="Technical">Technical</option>
+                        <label for="document-type">Document Type</label>
+                        <select id="document-type" name="documentType">
+                            <option value="Architecture Diagram">Architecture Diagram</option>
                             <option value="User Guide">User Guide</option>
                             <option value="API Documentation">API Documentation</option>
-                            <option value="Architecture">Architecture</option>
-                            <option value="Configuration">Configuration</option>
-                            <option value="Troubleshooting">Troubleshooting</option>
+                            <option value="Configuration Guide">Configuration Guide</option>
+                            <option value="Troubleshooting Guide">Troubleshooting Guide</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="document-tags">Tags (Optional)</label>
-                        <input type="text" id="document-tags" name="tags" placeholder="Enter tags separated by commas (e.g., api, documentation, guide)">
-                        <small class="form-text">Separate multiple tags with commas</small>
+                        <label for="document-description">Description</label>
+                        <textarea id="document-description" name="description" rows="3" placeholder="Enter document description..."></textarea>
                     </div>
                     <div class="form-actions">
                         <button type="button" class="btn btn-secondary" onclick="closeUploadModal()">Cancel</button>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-upload"></i> Upload Document
-                        </button>
+                        <button type="submit" class="btn btn-primary">Upload Document</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <script src="js/app_new.js"></script>
 </body>
 </html>
