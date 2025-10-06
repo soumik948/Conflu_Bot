@@ -50,6 +50,7 @@ async function loadApplications() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         applications = await response.json();
+        console.log('Loaded applications:', applications.length);
         displayApplications(applications);
         updateAppCount();
     } catch (error) {
@@ -83,12 +84,16 @@ function displayApplications(apps) {
 
 // Show application details
 async function showApplication(appId) {
+    console.log('Loading application:', appId);
     try {
         const response = await fetch(`/api/applications/${appId}`);
+        console.log('Response status:', response.status);
+        
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const app = await response.json();
+        console.log('Application data:', app);
         
         currentApplication = app;
         displayApplicationDetails(app);
@@ -97,11 +102,21 @@ async function showApplication(appId) {
         document.querySelectorAll('.app-nav-item').forEach(item => {
             item.classList.remove('active');
         });
-        event.target.closest('.app-nav-item').classList.add('active');
+        
+        // Find and activate the clicked item
+        const clickedItem = document.querySelector(`[onclick="showApplication('${appId}')"]`);
+        if (clickedItem) {
+            clickedItem.classList.add('active');
+        }
         
         // Show detail page
-        document.getElementById('welcome-screen').style.display = 'none';
-        document.getElementById('app-detail-page').style.display = 'block';
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const detailPage = document.getElementById('app-detail-page');
+        
+        if (welcomeScreen) welcomeScreen.style.display = 'none';
+        if (detailPage) detailPage.style.display = 'block';
+        
+        console.log('Application page displayed successfully');
         
     } catch (error) {
         console.error('Error loading application details:', error);
